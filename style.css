@@ -1,0 +1,154 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* background-color: rgba(27, 22, 82, 0.805); */
+  background: linear-gradient(135deg, rgb(255, 209, 69), rgb(63, 185, 255));
+}
+
+.container {
+  opacity: 1; /* Initially fully visible */
+  transition: opacity 2s ease-out; /* 1 second fade-out effect */
+}
+
+/* Add a class to trigger the fade-out */
+.container.fade-out {
+  opacity: 0.2; /* Fade out to fully transparent */
+}
+
+.container.no-transition {
+  transition: none !important;
+}
+
+.gameCont {
+  border: 2px;
+  display: grid;
+  grid-template-columns: auto auto auto;
+  gap: 5px;
+  padding: 5px;
+  background-color: rgba(255, 255, 255, 0.565);
+  border-radius: 10px;
+}
+
+.box img {
+  width: 70px;
+  height: 70px;
+}
+
+.box {
+  background-color: rgba(123, 133, 133, 0.561);
+  width: 90px;
+  height: 90px;
+  border-radius: 5px;
+  display: grid;
+  place-items: center;
+  user-select: none;
+}
+
+.chance {
+  display: flex;
+  padding: 5px 0;
+  border-radius: 15px;
+  margin-top: 15px;
+  background-color: rgba(167, 210, 210, 0.395);
+  justify-content: space-evenly;
+}
+
+.chance > p {
+  align-self: center;
+  font-size: xx-large;
+}
+
+.chance img {
+  margin: 0 0 0 0;
+  width: 60px;
+  height: 60px;
+}
+
+#resetButton {
+  padding: 10px 40px;
+  margin-top: 15px;
+  background-color: #ff4747;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: x-large;
+}
+
+#resetButton:hover {
+  background-color: #ff7979;
+}
+
+
+
+/* Container is hidden by default */
+.animation-container {
+  display: none; /* Hidden by default */
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+
+  /* animation: popUp 2s ease-in-out forwards; Animation effect */
+  /* background-color: rgba(255, 231, 46, 0.248); */
+}
+
+/* Image styling */
+.animation-image {
+  width: 400px;
+  height: 400px; /* Adjust size as needed */
+  opacity: 0.8; /* Adjust transparency */
+  animation: popUp 2s ease-in-out forwards; /* Animation effect */
+}
+
+.winTitle {
+  position: absolute; /* Position over the container */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  top: 50%; /* Center vertically */
+  left: 50%; /* Center horizontally */
+  transform: translate(-50%, -50%); /*Adjust to truly center*/
+  color: white; /* Color of the title */
+  font-size: 2em; /* Adjust as needed */
+  z-index: 1001; /* Ensure it appears above the animation image */
+}
+
+#winim {
+  width: 80px;
+  height: 80px;
+  opacity: 0.8; /* Adjust transparency */
+  animation: popUp 2s ease-in-out forwards; /* Animation effect */
+}
+#wintitle {
+  margin-top: 10px;
+  width: 160px;
+  height: 100px;
+  opacity: 0.8; /* Adjust transparency */
+  animation: popUp 2s ease-in-out forwards; /* Animation effect */
+}
+
+/* Keyframes for pop-up effect */
+@keyframes popUp {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
