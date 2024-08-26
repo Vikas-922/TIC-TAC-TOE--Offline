@@ -6,9 +6,9 @@ const container = document.querySelector(".container");
 const winimg = document.getElementById("winim");
 document.getElementById('resetButton').addEventListener('click', resetGame);
 
-let chancePlayer1 = true;
-let player1arr = [];
-let player2arr = [];
+let chancePlayerX = true;
+let playerXarr = [];
+let playerOarr = [];
 let checkedivArr = [];
 
 const winConditions = [
@@ -34,34 +34,37 @@ function clicked(e) {
     return; // Stop further execution
   }
 
-  divtag = e.target;
-  imgTag = document.createElement("img");
-
-  // Check if the img src contains "circle.png" and change it   (ele.tagName === 'IMG' && ele.src.includes("circle.png"))
-  if (chancePlayer1) {
-    imgTag.src = "images/cross2.png"; // Replace with the new image path
-    // imgTag.classList.add("")
-    player1arr.push(parseInt(divtag.id));
-    divtag.appendChild(imgTag);
-    checkedivArr.push(divtag);
+  //  (ele.tagName === 'IMG' && ele.src.includes("circle.png"))
+  if (chancePlayerX) {
+    insertSign(e,"cross")
     togglePlayer();
-    checkWin(player1arr, "cross");
+    checkWin(playerXarr, "cross");
   } else {
-    imgTag.src = "images/circle.png";
-    player2arr.push(parseInt(divtag.id));
-    divtag.appendChild(imgTag);
-    checkedivArr.push(divtag);
+    insertSign(e,"circle")
     togglePlayer();
-    checkWin(player2arr, "circle");
+    checkWin(playerOarr, "circle");
   }
 
    console.log(checkedivArr);
-  // console.log("p2 => " + player2arr);
+  // console.log("p2 => " + playerOarr);
+}
+
+function insertSign(e,player){
+  divtag = e.target;
+  imgTag = document.createElement("img");
+  imgTag.src = player === "cross" ? "images/cross2.png" :"images/circle.png" ; // Replace with the new image path
+  // imgTag.classList.add("")
+
+  if(player === "cross")  playerXarr.push(parseInt(divtag.id));
+  if(player === "circle")  playerOarr.push(parseInt(divtag.id));
+
+  divtag.appendChild(imgTag);
+  checkedivArr.push(divtag);
 }
 
 function togglePlayer() {
-  chancePlayer1 = chancePlayer1 ? false : true;
-  chanceImg.src = chancePlayer1 ? "images/cross2.png" : "images/circle.png";
+  chancePlayerX = chancePlayerX ? false : true;
+  chanceImg.src = chancePlayerX ? "images/cross2.png" : "images/circle.png";
   //chanceImg.src = "images/circle.png" ;
   // console.log(chanceImg);
 }
@@ -87,6 +90,7 @@ function checkWin(playerarr, player) {
   }
 }
 
+
 function showWinningAnimation(player) {
 
   winimg.src = player==="cross" ? "images/cross2.png" : "images/circle.png";
@@ -98,7 +102,7 @@ function showWinningAnimation(player) {
 
   // Optionally, hide the animation after some time
   setTimeout(() => {
-    console.log("edd");
+    // console.log("edd");
     animationContainer.style.display = "none";
     container.classList.add("no-transition"); // prevent fadeout animation when removing fadeout
     container.classList.remove("fade-out");
@@ -106,7 +110,7 @@ function showWinningAnimation(player) {
 
     setTimeout(() => {
       // fade out will take 2s for animation when removing it
-      console.log("ccc");
+      // console.log("ccc");
       container.classList.remove("no-transition");
     }, 2000);
     //container.classList.remove('no-transition');
@@ -119,8 +123,8 @@ function resetGame() {
   });
 
   checkedivArr.length=0;
-  chancePlayer1 = true;
-  player1arr.length = 0;
-  player2arr.length = 0;
+  chancePlayerX = true;
+  playerXarr.length = 0;
+  playerOarr.length = 0;
   chanceImg.src = "images/cross2.png";
 }
