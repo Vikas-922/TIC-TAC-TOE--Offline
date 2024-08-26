@@ -10,6 +10,12 @@ let chancePlayerX = true;
 let playerXarr = [];
 let playerOarr = [];
 let checkedivArr = [];
+let board = [ [ '_', '_', '_' ], 
+              [ '_', '_', '_' ], 
+              [ '_', '_', '_' ] ]; 
+
+console.log(board);
+
 
 const winConditions = [
   [1, 2, 3], // First row
@@ -33,8 +39,8 @@ function clicked(e) {
     console.log("Image tag already present (clicked directly on the image).");
     return; // Stop further execution
   }
-
   //  (ele.tagName === 'IMG' && ele.src.includes("circle.png"))
+
   if (chancePlayerX) {
     insertSign(e,"cross")
     togglePlayer();
@@ -45,8 +51,14 @@ function clicked(e) {
     checkWin(playerOarr, "circle");
   }
 
-   console.log(checkedivArr);
+  //  console.log(" checkedivArr =>",checkedivArr);
   // console.log("p2 => " + playerOarr);
+}
+
+function updateBoardArr(position,sign){
+  let row = Math.floor((position - 1) / 3);
+  let col = (position - 1) % 3;
+  board[row][col] = sign;
 }
 
 function insertSign(e,player){
@@ -55,8 +67,17 @@ function insertSign(e,player){
   imgTag.src = player === "cross" ? "images/cross2.png" :"images/circle.png" ; // Replace with the new image path
   // imgTag.classList.add("")
 
-  if(player === "cross")  playerXarr.push(parseInt(divtag.id));
-  if(player === "circle")  playerOarr.push(parseInt(divtag.id));
+  if(player === "cross")  {
+    playerXarr.push(parseInt(divtag.id));
+    updateBoardArr(divtag.id,"x");
+    console.log(board);
+
+  }
+  if(player === "circle")  {
+    playerOarr.push(parseInt(divtag.id));
+    updateBoardArr(divtag.id,"o");
+    console.log(board);
+  }
 
   divtag.appendChild(imgTag);
   checkedivArr.push(divtag);
@@ -89,7 +110,6 @@ function checkWin(playerarr, player) {
     }
   }
 }
-
 
 function showWinningAnimation(player) {
 
