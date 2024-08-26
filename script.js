@@ -5,17 +5,24 @@ const animationContainer = document.getElementById("winningAnimation");
 const container = document.querySelector(".container");
 const winimg = document.getElementById("winim");
 document.getElementById('resetButton').addEventListener('click', resetGame);
+document.getElementById('bot').addEventListener('click', bot);
 
+console.log(boxes);
+
+// REMEMBER TO RESET FIELDS IN RESET function
 let chancePlayerX = true;
+let botPlays = false;
 let playerXarr = [];
 let playerOarr = [];
 let checkedivArr = [];
+let availableDivArr =  Array.from(boxes);  // Convert NodeList to Array
+let availablePositionArr = availableDivArr.map(element => Number(element.id));
+
+
 let board = [ [ '_', '_', '_' ], 
               [ '_', '_', '_' ], 
               [ '_', '_', '_' ] ]; 
-
 console.log(board);
-
 
 const winConditions = [
   [1, 2, 3], // First row
@@ -31,7 +38,6 @@ const winConditions = [
 boxes.forEach((element) => {
   element.addEventListener("click", clicked);
 });
-
 // console.log(boxes);
 
 function clicked(e) {
@@ -40,29 +46,53 @@ function clicked(e) {
     return; // Stop further execution
   }
   //  (ele.tagName === 'IMG' && ele.src.includes("circle.png"))
-
+    divtag = e.target;
   if (chancePlayerX) {
-    insertSign(e,"cross")
+    insertSign(divtag,"cross");
     togglePlayer();
     checkWin(playerXarr, "cross");
   } else {
-    insertSign(e,"circle")
+    insertSign(divtag,"circle");
     togglePlayer();
     checkWin(playerOarr, "circle");
   }
 
   //  console.log(" checkedivArr =>",checkedivArr);
   // console.log("p2 => " + playerOarr);
+  if(botPlays && !chancePlayerX){
+    setTimeout(() => {
+      botAction("circle");
+    }, 1300);
+  }  
 }
 
+function bot(sign){
+  botPlays=true;
+}
+
+function botAction(sign){
+    // Generate a random index between 0 and arr.length - 1
+    const randomIndex = Math.floor(Math.random() * availableDivArr.length);
+    // Select the random element
+    const randomDiv = availableDivArr[randomIndex];
+    console.log("randomDiv  ",randomDiv);
+  
+    insertSign(randomDiv,sign);
+    togglePlayer();
+    checkWin(playerOarr, sign);
+}
+
+
 function updateBoardArr(position,sign){
+  console.log("q  ",position,sign)
   let row = Math.floor((position - 1) / 3);
   let col = (position - 1) % 3;
+  console.log("w  ",position,sign)
   board[row][col] = sign;
 }
 
-function insertSign(e,player){
-  divtag = e.target;
+function insertSign(divtag,player){
+
   imgTag = document.createElement("img");
   imgTag.src = player === "cross" ? "images/cross2.png" :"images/circle.png" ; // Replace with the new image path
   // imgTag.classList.add("")
@@ -71,7 +101,6 @@ function insertSign(e,player){
     playerXarr.push(parseInt(divtag.id));
     updateBoardArr(divtag.id,"x");
     console.log(board);
-
   }
   if(player === "circle")  {
     playerOarr.push(parseInt(divtag.id));
@@ -81,6 +110,14 @@ function insertSign(e,player){
 
   divtag.appendChild(imgTag);
   checkedivArr.push(divtag);
+  console.log("div=>",divtag);
+  // console.log(boxes);
+  // Remove the element with the same ID as divtag
+  // console.log("availableDivArr",availableDivArr);
+  availableDivArr = availableDivArr.filter(element => element.id !== divtag.id);
+  availablePositionArr = availableDivArr.map(element => Number(element.id));
+  console.log("availableDivArr",availableDivArr);
+  console.log("availablePositionArr",availablePositionArr);
 }
 
 function togglePlayer() {
@@ -88,6 +125,15 @@ function togglePlayer() {
   chanceImg.src = chancePlayerX ? "images/cross2.png" : "images/circle.png";
   //chanceImg.src = "images/circle.png" ;
   // console.log(chanceImg);
+}
+
+function cheek(){
+  for (const i of board) {
+    for (const j of i) {
+      
+    }
+    
+  }
 }
 
 function checkWin(playerarr, player) {
@@ -146,5 +192,12 @@ function resetGame() {
   chancePlayerX = true;
   playerXarr.length = 0;
   playerOarr.length = 0;
+  board = [ 
+    [ '_', '_', '_' ], 
+    [ '_', '_', '_' ], 
+    [ '_', '_', '_' ] 
+  ];
+  availableDivArr =  Array.from(boxes);  // Convert NodeList to Array
+  availablePositionArr = availableDivArr.map(element => Number(element.id));
   chanceImg.src = "images/cross2.png";
 }
