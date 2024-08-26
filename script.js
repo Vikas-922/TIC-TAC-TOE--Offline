@@ -4,8 +4,8 @@ chanceImg.src = "images/cross2.png";
 const animationContainer = document.getElementById("winningAnimation");
 const container = document.querySelector(".container");
 const winimg = document.getElementById("winim");
-document.getElementById('resetButton').addEventListener('click', resetGame);
-document.getElementById('bot').addEventListener('click', bot);
+document.getElementById("resetButton").addEventListener("click", resetGame);
+document.getElementById("bot").addEventListener("click", bot);
 
 console.log(boxes);
 
@@ -15,24 +15,25 @@ let botPlays = false;
 let playerXarr = [];
 let playerOarr = [];
 let checkedivArr = [];
-let availableDivArr =  Array.from(boxes);  // Convert NodeList to Array
-let availablePositionArr = availableDivArr.map(element => Number(element.id));
+let availableDivArr = Array.from(boxes); // Convert NodeList to Array
+let availablePositionArr = availableDivArr.map((element) => Number(element.id));  // i think not in use
 
-
-let board = [ [ '_', '_', '_' ], 
-              [ '_', '_', '_' ], 
-              [ '_', '_', '_' ] ]; 
+let board = [
+  ["_", "_", "_"],
+  ["_", "_", "_"],
+  ["_", "_", "_"],
+];
 console.log(board);
 
 const winConditions = [
-  [1, 2, 3], // First row
-  [4, 5, 6], // Second row
-  [7, 8, 9], // Third row
-  [1, 4, 7], // First column
-  [2, 5, 8], // Second column
-  [3, 6, 9], // Third column
-  [1, 5, 9], // Left diagonal
-  [3, 5, 7], // Right diagonal
+  [0, 1, 2], // Row 1
+  [3, 4, 5], // Row 2
+  [6, 7, 8], // Row 3
+  [0, 3, 6], // Column 1
+  [1, 4, 7], // Column 2
+  [2, 5, 8], // Column 3
+  [0, 4, 8], // Diagonal 1
+  [2, 4, 6]  // Diagonal 2
 ];
 
 boxes.forEach((element) => {
@@ -46,78 +47,78 @@ function clicked(e) {
     return; // Stop further execution
   }
   //  (ele.tagName === 'IMG' && ele.src.includes("circle.png"))
-    divtag = e.target;
+  divtag = e.target;
   if (chancePlayerX) {
-    insertSign(divtag,"cross");
+    insertSign(divtag, "cross");
     togglePlayer();
-    checkWin(playerXarr, "cross");
+    checkWin(board, "cross");
   } else {
-    insertSign(divtag,"circle");
+    insertSign(divtag, "circle");
     togglePlayer();
-    checkWin(playerOarr, "circle");
+    checkWin(board, "circle");
   }
 
   //  console.log(" checkedivArr =>",checkedivArr);
   // console.log("p2 => " + playerOarr);
-  if(botPlays && !chancePlayerX){
+  if (botPlays && !chancePlayerX && availableDivArr.length!==0 ) {
     setTimeout(() => {
       botAction("circle");
-    }, 1300);
-  }  
+    }, 700);
+  }
 }
 
-function bot(sign){
-  botPlays=true;
+function bot(sign) {
+  botPlays = true;
 }
 
-function botAction(sign){
-    // Generate a random index between 0 and arr.length - 1
-    const randomIndex = Math.floor(Math.random() * availableDivArr.length);
-    // Select the random element
-    const randomDiv = availableDivArr[randomIndex];
-    console.log("randomDiv  ",randomDiv);
-  
-    insertSign(randomDiv,sign);
-    togglePlayer();
-    checkWin(playerOarr, sign);
+function botAction(sign) {
+  // Generate a random index between 0 and arr.length - 1
+  const randomIndex = Math.floor(Math.random() * availableDivArr.length);
+  // Select the random element
+  const randomDiv = availableDivArr[randomIndex];
+  console.log("randomDiv  ", randomDiv);
+
+  insertSign(randomDiv, sign);
+  togglePlayer();
+  checkWin(board, sign);
 }
 
-
-function updateBoardArr(position,sign){
-  console.log("q  ",position,sign)
+function updateBoardArr(position, sign) {
+  // console.log("q  ", position, sign);
   let row = Math.floor((position - 1) / 3);
   let col = (position - 1) % 3;
-  console.log("w  ",position,sign)
+  // console.log("w  ", position, sign);
   board[row][col] = sign;
 }
 
-function insertSign(divtag,player){
-
+function insertSign(divtag, player) {
   imgTag = document.createElement("img");
-  imgTag.src = player === "cross" ? "images/cross2.png" :"images/circle.png" ; // Replace with the new image path
+  imgTag.src = player === "cross" ? "images/cross2.png" : "images/circle.png"; // Replace with the new image path
   // imgTag.classList.add("")
 
-  if(player === "cross")  {
+  if (player === "cross") {
     playerXarr.push(parseInt(divtag.id));
-    updateBoardArr(divtag.id,"x");
+    updateBoardArr(divtag.id, "x");
     console.log(board);
   }
-  if(player === "circle")  {
+  if (player === "circle") {
     playerOarr.push(parseInt(divtag.id));
-    updateBoardArr(divtag.id,"o");
+    updateBoardArr(divtag.id, "o");
     console.log(board);
   }
 
   divtag.appendChild(imgTag);
   checkedivArr.push(divtag);
-  console.log("div=>",divtag);
+  // console.log("div=>", divtag);
   // console.log(boxes);
   // Remove the element with the same ID as divtag
   // console.log("availableDivArr",availableDivArr);
-  availableDivArr = availableDivArr.filter(element => element.id !== divtag.id);
-  availablePositionArr = availableDivArr.map(element => Number(element.id));
-  console.log("availableDivArr",availableDivArr);
-  console.log("availablePositionArr",availablePositionArr);
+  availableDivArr = availableDivArr.filter(
+    (element) => element.id !== divtag.id   //REMOVE divtag from availableDivArr
+  );
+  availablePositionArr = availableDivArr.map((element) => Number(element.id));
+  // console.log("availableDivArr", availableDivArr);
+  console.log("availablePositionArr", availablePositionArr);
 }
 
 function togglePlayer() {
@@ -127,16 +128,53 @@ function togglePlayer() {
   // console.log(chanceImg);
 }
 
-function cheek(){
-  for (const i of board) {
-    for (const j of i) {
-      
-    }
-    
+function convertTo1DArray(board) {
+  let result = [];
+  for (let i = 0; i < board.length; i++) {
+      for (let j = 0; j < board[i].length; j++) {
+          result.push(board[i][j]);
+      }
   }
+  return result;
 }
 
-function checkWin(playerarr, player) {
+function checkWin(temp2DBoard,playrConvsn) {
+  let tempBoard=convertTo1DArray(temp2DBoard);
+  console.log("tempBoard  ",tempBoard,temp2DBoard);
+  console.log("playrConvsn  ",playrConvsn);
+  let playerWins=false;
+  let tie = false;
+  let player=(playrConvsn==="cross") ? 'x' : 'o';
+  // console.log("check win", player, playerarr);
+  // Check each winning combination
+    for (let combination of winConditions) {
+        const [a, b, c] = combination;
+        
+        // If all positions in a winning combination are occupied by the player, return true
+        if (tempBoard[a] === player && tempBoard[b] === player && tempBoard[c] === player) {
+          playerWins=true;
+          console.log(" ------  ",a,b,c);
+        console.log("xxxxxx  ",tempBoard[a],tempBoard[b],tempBoard[c],player);
+        console.log("qwert  ",tempBoard[a] === player,tempBoard[b] === player,tempBoard[c] === player);
+          break;
+          //return true;
+        }
+    }
+    // return false;
+    tie = tempBoard.every(cell => cell !== '_');
+    if (tie) {console.log( "------TTIIEEEE -------");
+      resetGame();
+    }
+    if (playerWins) {
+      console.log(player + "  wins");
+      showWinningAnimation(playrConvsn); // Trigger the winning animation
+    }
+
+
+    
+}
+
+function chn(playerarr, player) {
   // console.log("check win", player, playerarr);
   let times3 = 0;
   for (const i of winConditions) {
@@ -151,15 +189,14 @@ function checkWin(playerarr, player) {
     if (times3 === 3) {
       console.log(player + "  wins");
       showWinningAnimation(player); // Trigger the winning animation
-      
+
       break;
     }
   }
 }
 
 function showWinningAnimation(player) {
-
-  winimg.src = player==="cross" ? "images/cross2.png" : "images/circle.png";
+  winimg.src = player === "cross" ? "images/cross2.png" : "images/circle.png";
   // Add the fade-out class to start the transition
   container.classList.add("fade-out");
 
@@ -172,7 +209,7 @@ function showWinningAnimation(player) {
     animationContainer.style.display = "none";
     container.classList.add("no-transition"); // prevent fadeout animation when removing fadeout
     container.classList.remove("fade-out");
-    resetGame();  // after that clears 
+    resetGame(); // after that clears
 
     setTimeout(() => {
       // fade out will take 2s for animation when removing it
@@ -184,20 +221,20 @@ function showWinningAnimation(player) {
 }
 
 function resetGame() {
-  checkedivArr.forEach(element =>{
+  checkedivArr.forEach((element) => {
     element.firstElementChild.remove();
   });
 
-  checkedivArr.length=0;
+  checkedivArr.length = 0;
   chancePlayerX = true;
   playerXarr.length = 0;
   playerOarr.length = 0;
-  board = [ 
-    [ '_', '_', '_' ], 
-    [ '_', '_', '_' ], 
-    [ '_', '_', '_' ] 
+  board = [
+    ["_", "_", "_"],
+    ["_", "_", "_"],
+    ["_", "_", "_"],
   ];
-  availableDivArr =  Array.from(boxes);  // Convert NodeList to Array
-  availablePositionArr = availableDivArr.map(element => Number(element.id));
+  availableDivArr = Array.from(boxes); // Convert NodeList to Array
+  availablePositionArr = availableDivArr.map((element) => Number(element.id));
   chanceImg.src = "images/cross2.png";
 }
