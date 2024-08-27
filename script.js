@@ -2,6 +2,7 @@ const boxes = document.querySelectorAll(".box");
 const chanceImg = document.querySelector(".chance > img");
 chanceImg.src = "images/cross2.png";
 const animationContainer = document.getElementById("winningAnimation");
+const tieAnimationCont = document.querySelector(".tieAnimation");
 const container = document.querySelector(".container");
 const winimg = document.getElementById("winim");
 document.getElementById("resetButton").addEventListener("click", resetGame);
@@ -42,6 +43,10 @@ boxes.forEach((element) => {
 // console.log(boxes);
 
 function clicked(e) {
+  if (botPlays && !chancePlayerX) {
+    return; // Prevent user from clicking while bot is playing
+  }
+
   if (e.target.tagName === "IMG" || e.target.querySelector("img")) {
     console.log("Image tag already present (clicked directly on the image).");
     return; // Stop further execution
@@ -69,6 +74,7 @@ function clicked(e) {
 
 function bot(sign) {
   botPlays = true;
+  resetGame();
 }
 
 function botAction(sign) {
@@ -124,6 +130,7 @@ function insertSign(divtag, player) {
 function togglePlayer() {
   chancePlayerX = chancePlayerX ? false : true;
   chanceImg.src = chancePlayerX ? "images/cross2.png" : "images/circle.png";
+  
   //chanceImg.src = "images/circle.png" ;
   // console.log(chanceImg);
 }
@@ -162,16 +169,16 @@ function checkWin(temp2DBoard,playrConvsn) {
     }
     // return false;
     tie = tempBoard.every(cell => cell !== '_');
-    if (tie) {console.log( "------TTIIEEEE -------");
-      resetGame();
-    }
     if (playerWins) {
       console.log(player + "  wins");
       showWinningAnimation(playrConvsn); // Trigger the winning animation
     }
+    else if(tie) {
+      console.log( "------TTIIEEEE -------");
+      tieAnimation();
+      
+    }
 
-
-    
 }
 
 function chn(playerarr, player) {
@@ -193,6 +200,25 @@ function chn(playerarr, player) {
       break;
     }
   }
+}
+
+function tieAnimation(){
+  container.classList.add("fade-out");
+  tieAnimationCont.style.display = "grid";
+
+  setTimeout(() => {
+    // console.log("edd");
+    tieAnimationCont.style.display = "none";
+    container.classList.add("no-transition"); // prevent fadeout animation when removing fadeout
+    container.classList.remove("fade-out");   //beacuse reverse animation comes when uremove class
+    resetGame(); // after that clears
+
+    setTimeout(() => {
+      container.classList.remove("no-transition");
+    }, 2000);
+  }, 2600); // Adjust the time as needed
+
+  
 }
 
 function showWinningAnimation(player) {

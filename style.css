@@ -101,6 +101,19 @@ body {
   background-color: #ff7979;
 }
 
+.tieAnimation{
+  display: none; /* Hidden by default */
+  position: fixed;
+  place-items: center;
+  padding: 3px 10px;
+  border-radius: 15px;
+  box-shadow: 0px 0px 20px rgba(255, 0, 0, 0.739), 0px 0px 50px rgb(255, 230, 0);
+  background-color: rgba(255, 0, 0, 0.31);
+  z-index: 1000;
+  font-size: xx-large;
+  animation: popUp 2s ease-in-out forwards;
+}
+
 
 
 /* Container is hidden by default */
@@ -111,6 +124,7 @@ body {
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 1000;
+  
 
   /* animation: popUp 2s ease-in-out forwards; Animation effect */
   /* background-color: rgba(255, 231, 46, 0.248); */
