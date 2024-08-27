@@ -14,6 +14,7 @@ console.log(boxes);
 // REMEMBER TO RESET FIELDS IN RESET function
 let chancePlayerX = true;
 let botPlays = false;
+let goingToReset = false;
 let playerXarr = [];
 let playerOarr = [];
 let checkedivArr = [];
@@ -44,7 +45,7 @@ boxes.forEach((element) => {
 // console.log(boxes);
 
 function clicked(e) {
-  if (botPlays && !chancePlayerX) {
+  if (botPlays && !chancePlayerX && !goingToReset) {
     return; // Prevent user from clicking while bot is playing
   }
 
@@ -66,7 +67,7 @@ function clicked(e) {
 
   //  console.log(" checkedivArr =>",checkedivArr);
   // console.log("p2 => " + playerOarr);
-  if (botPlays && !chancePlayerX && availableDivArr.length!==0 ) {
+  if (botPlays && !chancePlayerX && availableDivArr.length!==0 && !goingToReset) {
     setTimeout(() => {
       botAction("circle");
     }, 700);
@@ -268,6 +269,7 @@ function chn(playerarr, player) {
 }
 
 function tieAnimation(){
+  goingToReset = true;
   container.classList.add("fade-out");
   tieAnimationCont.style.display = "grid";
 
@@ -287,6 +289,7 @@ function tieAnimation(){
 }
 
 function showWinningAnimation(player) {
+  goingToReset = true;
   winimg.src = player === "cross" ? "images/cross2.png" : "images/circle.png";
   // Add the fade-out class to start the transition
   container.classList.add("fade-out");
@@ -318,6 +321,7 @@ function resetGame() {
 
   checkedivArr.length = 0;
   chancePlayerX = true;
+  goingToReset = false;
   playerXarr.length = 0;
   playerOarr.length = 0;
   board = [
