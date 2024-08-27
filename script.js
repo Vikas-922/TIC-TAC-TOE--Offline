@@ -6,7 +6,8 @@ const tieAnimationCont = document.querySelector(".tieAnimation");
 const container = document.querySelector(".container");
 const winimg = document.getElementById("winim");
 document.getElementById("resetButton").addEventListener("click", resetGame);
-document.getElementById("bot").addEventListener("click", bot);
+const botBtn = document.getElementById("bot");
+botBtn.addEventListener("click", bot);
 
 console.log(boxes);
 
@@ -73,10 +74,34 @@ function clicked(e) {
 }
 
 function bot(sign) {
-  botPlays = true;
+  botPlays = botPlays ? false : true;
+  if (botPlays) {
+    botBtn.style.backgroundColor="#14db3ab3";
+  } else {
+    botBtn.style.backgroundColor="#ff4747";
+  }
   resetGame();
 }
 
+function strSignToChar(str){
+  return ((str==="circle") ? 'o' : 'x');
+}
+
+
+
+function botAction(sign) {
+  dictBotMove = findBestMove(board,strSignToChar(sign));
+  bestPos = convertDictToPosition(dictBotMove);
+  botDivMove = getDivByPosition(availableDivArr,bestPos);
+
+  console.log("randomDiv  ", botDivMove);
+
+  insertSign(botDivMove, sign);
+  togglePlayer();
+  checkWin(board, sign);
+}
+
+/*
 function botAction(sign) {
   // Generate a random index between 0 and arr.length - 1
   const randomIndex = Math.floor(Math.random() * availableDivArr.length);
@@ -88,6 +113,8 @@ function botAction(sign) {
   togglePlayer();
   checkWin(board, sign);
 }
+*/
+
 
 function updateBoardArr(position, sign) {
   // console.log("q  ", position, sign);
@@ -130,7 +157,6 @@ function insertSign(divtag, player) {
 function togglePlayer() {
   chancePlayerX = chancePlayerX ? false : true;
   chanceImg.src = chancePlayerX ? "images/cross2.png" : "images/circle.png";
-  
   //chanceImg.src = "images/circle.png" ;
   // console.log(chanceImg);
 }
@@ -144,6 +170,7 @@ function convertTo1DArray(board) {
   }
   return result;
 }
+
 
 function checkWin(temp2DBoard,playrConvsn) {
   let tempBoard=convertTo1DArray(temp2DBoard);
@@ -180,6 +207,44 @@ function checkWin(temp2DBoard,playrConvsn) {
     }
 
 }
+
+
+// function checkWin(temp2DBoard,playrConvsn) {
+//   let tempBoard=convertTo1DArray(temp2DBoard);
+//   console.log("tempBoard  ",tempBoard,temp2DBoard);
+//   console.log("playrConvsn  ",playrConvsn);
+//   let playerWins=false;
+//   let tie = false;
+//   let player=(playrConvsn==="cross") ? 'x' : 'o';
+//   // console.log("check win", player, playerarr);
+//   // Check each winning combination
+//     for (let combination of winConditions) {
+//         const [a, b, c] = combination;
+        
+//         // If all positions in a winning combination are occupied by the player, return true
+//         if (tempBoard[a] === player && tempBoard[b] === player && tempBoard[c] === player) {
+//           playerWins=true;
+//           console.log(" ------  ",a,b,c);
+//         console.log("xxxxxx  ",tempBoard[a],tempBoard[b],tempBoard[c],player);
+//         console.log("qwert  ",tempBoard[a] === player,tempBoard[b] === player,tempBoard[c] === player);
+//           break;
+//           //return true;
+//         }
+//     }
+//     // return false;
+//     tie = tempBoard.every(cell => cell !== '_');
+//     if (playerWins) {
+//       console.log(player + "  wins");
+//       showWinningAnimation(playrConvsn); // Trigger the winning animation
+//     }
+//     else if(tie) {
+//       console.log( "------TTIIEEEE -------");
+//       tieAnimation();
+      
+//     }
+
+// }
+
 
 function chn(playerarr, player) {
   // console.log("check win", player, playerarr);

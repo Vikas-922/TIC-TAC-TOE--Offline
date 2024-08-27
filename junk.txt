@@ -1,0 +1,75 @@
+
+// Minimax function
+function minimax(board, depth, alpha, beta, isMax) {
+    let score = evaluate(board);
+
+    // If the Maximizer (X) has won the game
+    if (score === 10)
+        return score - depth;
+
+    // If the Minimizer (O) has won the game
+    if (score === -10)
+        return score + depth;
+
+    // If there are no more moves and no winner
+    if (!isMovesLeft(board))
+        return 0;
+    /*
+    if(depth<=1){
+        Maxdepth=5;
+    }else if(depth<=2){
+        Maxdepth=4;
+    }else if(depth<=3) {
+        Maxdepth=1;
+    }   */
+
+    if (depth >=5) {
+            console.log("+++++   depth >=11   +++++");
+        return -10 + depth;
+    }
+
+    // If this is the maximizer's move BOT
+    if (isMax) {
+        let best = -1000;
+
+        // Traverse all cells
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+                // Check if cell is empty
+                if (board[i][j] === '_') {
+                    // Make the move
+                    board[i][j] = 'x';      // X BOT 
+                    // Call minimax recursively and choose the maximum value
+                    best = Math.max(best, minimax(board, depth + 1, alpha, beta, false));
+                    // Undo the move
+                    board[i][j] = '_';
+
+                    alpha = Math.max(alpha, best);
+                    if (beta <= alpha) break; // Beta cut-off
+                }
+            }
+        }
+        return best;
+    } else {
+        // Minimizer's move
+        let best = 1000;
+
+        // Traverse all cells
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+                // Check if cell is empty
+                if (board[i][j] === '_') {
+                    // Make the move
+                    board[i][j] = 'o';
+                    // Call minimax recursively and choose the minimum value
+                    best = Math.min(best, minimax(board, depth + 1, alpha, beta, true));
+                    // Undo the move
+                    board[i][j] = '_';
+                    beta = Math.min(beta, best);
+                    if (beta <= alpha) break; // Alpha cut-off
+                }
+            }
+        }
+        return best;
+    }
+}
