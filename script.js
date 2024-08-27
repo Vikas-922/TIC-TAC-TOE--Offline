@@ -18,6 +18,7 @@ let goingToReset = false;
 let playerXarr = [];
 let playerOarr = [];
 let checkedivArr = [];
+let botDepth = 4;
 let availableDivArr = Array.from(boxes); // Convert NodeList to Array
 let availablePositionArr = availableDivArr.map((element) => Number(element.id));  // i think not in use
 
@@ -43,6 +44,17 @@ boxes.forEach((element) => {
   element.addEventListener("click", clicked);
 });
 // console.log(boxes);
+
+function checkInput(input) {
+  const value = parseInt(input.value, 10); // Convert the input value to an integer
+  if (isNaN(value) || value < 1 || value > 9) {
+    alert("Please enter a valid number between 1 and 9.");
+    input.value = ''; // Clear the input if the value is invalid
+  } else {
+    botDepth=value; 
+  }
+}
+
 
 function clicked(e) {
   if (botPlays && !chancePlayerX && !goingToReset) {
@@ -88,14 +100,12 @@ function strSignToChar(str){
   return ((str==="circle") ? 'o' : 'x');
 }
 
-
-
 function botAction(sign) {
-  dictBotMove = findBestMove(board,strSignToChar(sign));
+  dictBotMove = findBestMove(board,strSignToChar(sign),botDepth);
   bestPos = convertDictToPosition(dictBotMove);
   botDivMove = getDivByPosition(availableDivArr,bestPos);
 
-  console.log("randomDiv  ", botDivMove);
+  console.log("botDepth  ", botDepth);
 
   insertSign(botDivMove, sign);
   togglePlayer();

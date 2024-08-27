@@ -96,6 +96,20 @@ body {
   cursor: pointer;
   font-size: x-large;
 }
+#input-box {
+  padding: 10px 10px;
+  width: 50%;
+  margin-left: 5px;
+  margin-bottom: 15px;
+  background-color: #f06363;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: x-large;
+  text-align: center;
+  border: none; 
+}
+
 
 #resetButton:hover {
   background-color: #ff7979;

@@ -14,7 +14,7 @@ let boarddd = [
     ["_", "_", "_"],
   ];
 
-console.log("++++++++++++++",checkWinnig(boarddd,'x'));
+// console.log("++++++++++++++",checkWinnig(boarddd,'x'));
 
 function convertTo1DArrayV2(board) {
     let result = [];
@@ -124,7 +124,7 @@ function evaluate(board) {
 
 
 // Minimax function
-function minimax(board, depth, alpha, beta, isMax) {
+function minimax(board, depth, alpha, beta, isMax, maxDepth) {
     let score = evaluate(board);
 
     // If the Maximizer (X) has won the game
@@ -147,7 +147,7 @@ function minimax(board, depth, alpha, beta, isMax) {
         Maxdepth=1;
     }   */
 
-    if (depth >=5) {
+    if (depth >=maxDepth) {
             console.log("+++++   depth >=11   +++++");
         return -10 + depth;
     }
@@ -164,7 +164,7 @@ function minimax(board, depth, alpha, beta, isMax) {
                     // Make the move
                     board[i][j] = 'x';      // X BOT 
                     // Call minimax recursively and choose the maximum value
-                    best = Math.max(best, minimax(board, depth + 1, alpha, beta, false));
+                    best = Math.max(best, minimax(board, depth + 1, alpha, beta, false,maxDepth));
                     // Undo the move
                     board[i][j] = '_';
 
@@ -186,7 +186,7 @@ function minimax(board, depth, alpha, beta, isMax) {
                     // Make the move
                     board[i][j] = 'o';
                     // Call minimax recursively and choose the minimum value
-                    best = Math.min(best, minimax(board, depth + 1, alpha, beta, true));
+                    best = Math.min(best, minimax(board, depth + 1, alpha, beta, true, maxDepth));
                     // Undo the move
                     board[i][j] = '_';
                     beta = Math.min(beta, best);
@@ -240,7 +240,7 @@ function convertDictToPosition(MoveDictOject) {
 }
 
 //  X  IS BOT
-function findBestMove(board,botSign) {
+function findBestMove(board,botSign,maxDepth) {
     if(botSign==='o'){
         console.log("BOT SIGN  WILL CHANGE",board);
         board=convertBoardForBotO(board);
@@ -260,7 +260,7 @@ function findBestMove(board,botSign) {
                 board[i][j] = 'x';
 
                 // Compute evaluation function for this move
-                let moveVal = minimax(board, 1, -Infinity, Infinity, false);
+                let moveVal = minimax(board, 0, -Infinity, Infinity, false,maxDepth);
                 // let moveVal = minimax(board, 1, false);
 
                 // Undo the move
