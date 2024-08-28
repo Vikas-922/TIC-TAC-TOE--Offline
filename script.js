@@ -9,12 +9,25 @@ document.getElementById("resetButton").addEventListener("click", resetGame);
 const botBtn = document.getElementById("bot");
 botBtn.addEventListener("click", bot);
 
+
+let difficultyLevel = 'medium';
+document.querySelector('.difficultyLevel').addEventListener('change', function(event) {
+  if (event.target.type === 'radio') {
+    console.log(event.target.value + ' selected');
+    difficultyLevel = event.target.value;
+    // Add your logic based on the selected value here
+  }
+  // console.log('>>>>>>>>  ',event.target,' selected');
+});
+
+
 console.log(boxes);
 
 // REMEMBER TO RESET FIELDS IN RESET function
 let chancePlayerX = true;
 let botPlays = false;
 let goingToReset = false;
+
 let playerXarr = [];
 let playerOarr = [];
 let checkedivArr = [];
@@ -101,7 +114,7 @@ function strSignToChar(str){
 }
 
 function botAction(sign) {
-  dictBotMove = findBestMove(board,strSignToChar(sign),botDepth);
+  dictBotMove = findBestMove(board,strSignToChar(sign),botDepth,difficultyLevel);
   bestPos = convertDictToPosition(dictBotMove);
   botDivMove = getDivByPosition(availableDivArr,bestPos);
 
@@ -185,8 +198,8 @@ function convertTo1DArray(board) {
 
 function checkWin(temp2DBoard,playrConvsn) {
   let tempBoard=convertTo1DArray(temp2DBoard);
-  console.log("tempBoard  ",tempBoard,temp2DBoard);
-  console.log("playrConvsn  ",playrConvsn);
+  // console.log("tempBoard  ",tempBoard,temp2DBoard);
+  // console.log("playrConvsn  ",playrConvsn);
   let playerWins=false;
   let tie = false;
   let player=(playrConvsn==="cross") ? 'x' : 'o';

@@ -129,11 +129,13 @@ function minimax(board, depth, alpha, beta, isMax, maxDepth) {
 
     // If the Maximizer (X) has won the game
     if (score === 10)
-        return score - depth;
+        // return score - depth;
+        return score ;
 
     // If the Minimizer (O) has won the game
     if (score === -10)
-        return score + depth;
+        // return score + depth;
+        return score;
 
     // If there are no more moves and no winner
     if (!isMovesLeft(board))
@@ -147,10 +149,10 @@ function minimax(board, depth, alpha, beta, isMax, maxDepth) {
         Maxdepth=1;
     }   */
 
-    if (depth >=maxDepth) {
-            console.log("+++++   depth >=11   +++++");
-        return -10 + depth;
-    }
+    // if (depth >=maxDepth) {
+    //         console.log(`+++++   depth >=${maxDepth}   +++++`);
+    //     return -10 + depth;
+    // }
 
     // If this is the maximizer's move BOT
     if (isMax) {
@@ -240,31 +242,41 @@ function convertDictToPosition(MoveDictOject) {
 }
 
 //  X  IS BOT
-function findBestMove(board,botSign,maxDepth) {
+function findBestMove(board,botSign,maxDepth,difficulty) {
     if(botSign==='o'){
-        console.log("BOT SIGN  WILL CHANGE",board);
+        // console.log("BOT SIGN  WILL CHANGE",board);
         board=convertBoardForBotO(board);
-        console.log("BOT SIGN CHANGED TO 'X' FROM 'O'  ",board);
+        // console.log("BOT SIGN CHANGED TO 'X' FROM 'O'  ",board);
     }
     let bestVal = -1000;
     let bestMove = { row: -1, col: -1 };
+    // Object to categorize move values and corresponding positions
+    let categorizedMoves = {};
 
     // X IS MAXIMIZER OR AI BOT
     // Traverse all cells, evaluate minimax for each empty cell
     // and return the cell with optimal value.
     for (let i = 0; i < 3; i++) {
         for (let j = 0; j < 3; j++) {
-            // Check if cell is empty
+    
             if (board[i][j] === '_') {
                 // Make the move
                 board[i][j] = 'x';
-
                 // Compute evaluation function for this move
                 let moveVal = minimax(board, 0, -Infinity, Infinity, false,maxDepth);
                 // let moveVal = minimax(board, 1, false);
-
                 // Undo the move
                 board[i][j] = '_';
+
+                 // Check if moveVal category already exists
+                if (!categorizedMoves[moveVal]) {
+                    categorizedMoves[moveVal] = [];
+                }
+                // Store the position in the corresponding moveVal category
+                categorizedMoves[moveVal].push({ i: i, j: j });
+                
+                
+                // console.log('moveVal<<<  '+moveVal+'  >>>'+i+' '+j);
 
                 // If the value of the current move is more than the best value, update best
                 if (moveVal > bestVal) {
@@ -276,5 +288,99 @@ function findBestMove(board,botSign,maxDepth) {
         }
     }
 
+    console.log(categorizedMoves);
+    // console.log(categorizedMoves[-10][1]);
+    console.log("+++++/////+++++++++",bestMove);
+    bestMove = moveOnDifficulty(categorizedMoves,difficulty);
+    console.log("+++++/////+++++++++",bestMove);
     return bestMove;
 }
+
+function moveOnDifficulty(newCategorizedMoves,difficul) {
+    console.log("aaaaaaaaaaaaaaaa",difficul);
+    
+    let probability = {
+        'easy': {
+            '-10': 70,
+            '0': 20,
+            '10': 10
+        },
+        'medium': {
+            '-10': 40,
+            '0': 40,
+            '10': 20
+        },
+        'hard': {
+            '-10': 10,
+            '0': 70,
+            '10': 20
+        }
+    };
+    // newCategorizedMoves = {
+    //     '0': [
+    //         { i: 1, j: 1 }
+    //     ],
+    //     '-10': [
+    //         { i: 0, j: 0 },
+    //         { i: 2, j: 1 },
+    //         { i: 2, j: 2 }
+    //     ]
+    //     ]
+    // };
+
+    // Math.floor(Math.random() * 3) ^ Math.round(Math.random() * 2); //Generates 0,1,2,3
+    // Math.floor(Math.random() * 3); //Generates 0,1,2,
+
+    let keysArr = Object.keys(newCategorizedMoves);
+    let copiedkeysArr = JSON.parse(JSON.stringify(keysArr));
+    let eleCount = {};
+    let bigArr = [];
+
+    // Initialize eleCount with zero values
+    keysArr.forEach(key => {
+        eleCount[key] = 0;
+    });
+
+    
+
+    for (let i = 0; i < 100; i++) {
+        // If keysArr is empty, break the loop
+        if (keysArr.length === 0) break;
+
+        // Randomly select a key
+        let moreRandIndexSelect = Math.floor(Math.random() * keysArr.length);   //Generates 0,1,2,
+        let randKey = keysArr[moreRandIndexSelect];
+        
+        // Check the probability and add to bigArr if allowed
+        if (eleCount[randKey] < probability[difficul][randKey]) { //19 true
+            bigArr.push(randKey);               //becomes 20
+            eleCount[randKey] += 1;
+        } else {
+            // Remove key if the count exceeds the probability limit
+            keysArr.splice(moreRandIndexSelect, 1);
+            i--;  // Adjust the loop counter to retry
+        }
+    }
+
+    // console.log(bigArr);
+    console.log(bigArr.length);
+    console.log(eleCount);
+    // console.log(copiedkeysArr);
+
+    bigArrRandomIndex = Math.floor(Math.random() * bigArr.length); //Generates 0,1,2,
+    bigArrRandomValue = bigArr[bigArrRandomIndex];
+    
+    c = Math.floor(Math.random() * newCategorizedMoves[bigArrRandomValue].length);
+    rannMovv = newCategorizedMoves[bigArrRandomValue][c];
+    return transformPosition(rannMovv);
+    // if(eleCount[]===undefined || eleCount[]<=10);
+}
+
+function transformPosition(position) {
+    return {
+        row: position.i,
+        col: position.j
+    };
+}
+
+
