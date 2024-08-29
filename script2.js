@@ -288,18 +288,18 @@ function findBestMove(board,botSign,maxDepth,difficulty) {
         }
     }
 
-    console.log(categorizedMoves);
+    console.log('score for moves ',categorizedMoves);
     // console.log(categorizedMoves[-10][1]);
-    console.log("+++++/////+++++++++",difficulty);
+    // console.log("+++++/////+++++++++",difficulty);
     if(difficulty!=='impossible'){
     bestMove = moveOnDifficulty(categorizedMoves,difficulty);
     }
-    console.log("+++++/////+++++++++",bestMove);
+    // console.log("+++++/////+++++++++",bestMove);
     return bestMove;
 }
 
 function moveOnDifficulty(newCategorizedMoves,difficul) {
-    console.log("aaaaaaaaaaaaaaaa",difficul);
+    // console.log("aaaaaaaaaaaaaaaa",difficul);
     
     // Math.floor(Math.random() * 3) ^ Math.round(Math.random() * 2); //Generates 0,1,2,3
     // Math.floor(Math.random() * 3); //Generates 0,1,2,
@@ -340,15 +340,15 @@ function moveOnDifficulty(newCategorizedMoves,difficul) {
         }
     }
 
-    console.log(copiedkeysArr,'zzzzzzzzzzzzzzzzz     ',conditionsPerct);
-     console.log(bigArr);
+    console.log('Conditions percentage chances ',conditionsPerct);
+    //  console.log(bigArr);
     //console.log(bigArr.length);
     // console.log(eleCount);
     // console.log(copiedkeysArr);
 
     bigArrRandomIndex = Math.floor(Math.random() * bigArr.length); //Generates 0,1,2,
     bigArrRandomValue = bigArr[bigArrRandomIndex];
-    console.log(bigArrRandomValue);
+    console.log('move chosen to win,loss,tie > ',bigArrRandomValue);
     
     c = Math.floor(Math.random() * newCategorizedMoves[bigArrRandomValue].length);
     rannMovv = newCategorizedMoves[bigArrRandomValue][c];

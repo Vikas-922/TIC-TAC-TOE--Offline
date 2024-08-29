@@ -118,8 +118,6 @@ function botAction(sign) {
   bestPos = convertDictToPosition(dictBotMove);
   botDivMove = getDivByPosition(availableDivArr,bestPos);
 
-  console.log("botDepth  ", botDepth);
-
   insertSign(botDivMove, sign);
   togglePlayer();
   checkWin(board, sign);
@@ -161,7 +159,7 @@ function insertSign(divtag, player) {
   if (player === "circle") {
     playerOarr.push(parseInt(divtag.id));
     updateBoardArr(divtag.id, "o");
-    console.log(board);
+    // console.log(board);
   }
 
   divtag.appendChild(imgTag);
@@ -175,7 +173,7 @@ function insertSign(divtag, player) {
   );
   availablePositionArr = availableDivArr.map((element) => Number(element.id));
   // console.log("availableDivArr", availableDivArr);
-  console.log("availablePositionArr", availablePositionArr);
+  // console.log("availablePositionArr", availablePositionArr);
 }
 
 function togglePlayer() {
