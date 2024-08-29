@@ -9,19 +9,21 @@
   <body>
     <div class="container">
       <div class="difficultyLevel">
+       
         <label id="r1">
-          <input type="radio" name="difficulty" value="easy"> EASY
+          <input type="radio" name="difficulty" value="medium" checked> MEDIUM
         </label>
         <label id="r2">
-          <input type="radio" name="difficulty" value="medium"> MEDIUM
+          <input type="radio" name="difficulty" value="hard"> HARD
         </label>
         <label id="r3">
-          <input type="radio" name="difficulty" value="hard"> HARD
+          <input type="radio" name="difficulty" value="impossible"> IMPOSSIBLE
         </label>
       </div>
       <div class="botCont">
       <button id="bot">BOT</button>
-      <input type="number" id="input-box" min="1" max="9" placeholder="Bot's IQ" oninput="checkInput(this)">
+      <button id="resetButton">Reset</button>
+      <!-- <input type="number" id="input-box" min="1" max="9" placeholder="Bot's IQ" oninput="checkInput(this)"> -->
       </div>
 
       <div class="gameCont">
@@ -41,7 +43,7 @@
           <p>Turn</p>
         </div>
       </div>
-      <button id="resetButton">Reset</button>
+      
     </div>
 
     <!-- //// -->

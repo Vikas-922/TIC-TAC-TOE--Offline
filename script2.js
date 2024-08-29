@@ -290,8 +290,10 @@ function findBestMove(board,botSign,maxDepth,difficulty) {
 
     console.log(categorizedMoves);
     // console.log(categorizedMoves[-10][1]);
-    console.log("+++++/////+++++++++",bestMove);
+    console.log("+++++/////+++++++++",difficulty);
+    if(difficulty!=='impossible'){
     bestMove = moveOnDifficulty(categorizedMoves,difficulty);
+    }
     console.log("+++++/////+++++++++",bestMove);
     return bestMove;
 }
@@ -299,35 +301,6 @@ function findBestMove(board,botSign,maxDepth,difficulty) {
 function moveOnDifficulty(newCategorizedMoves,difficul) {
     console.log("aaaaaaaaaaaaaaaa",difficul);
     
-    let probability = {
-        'easy': {
-            '-10': 70,
-            '0': 20,
-            '10': 10
-        },
-        'medium': {
-            '-10': 40,
-            '0': 40,
-            '10': 20
-        },
-        'hard': {
-            '-10': 10,
-            '0': 70,
-            '10': 20
-        }
-    };
-    // newCategorizedMoves = {
-    //     '0': [
-    //         { i: 1, j: 1 }
-    //     ],
-    //     '-10': [
-    //         { i: 0, j: 0 },
-    //         { i: 2, j: 1 },
-    //         { i: 2, j: 2 }
-    //     ]
-    //     ]
-    // };
-
     // Math.floor(Math.random() * 3) ^ Math.round(Math.random() * 2); //Generates 0,1,2,3
     // Math.floor(Math.random() * 3); //Generates 0,1,2,
 
@@ -335,6 +308,9 @@ function moveOnDifficulty(newCategorizedMoves,difficul) {
     let copiedkeysArr = JSON.parse(JSON.stringify(keysArr));
     let eleCount = {};
     let bigArr = [];
+    let conditionsPerct = selectProbability(keysArr, difficul);
+    
+    
 
     // Initialize eleCount with zero values
     keysArr.forEach(key => {
@@ -352,7 +328,9 @@ function moveOnDifficulty(newCategorizedMoves,difficul) {
         let randKey = keysArr[moreRandIndexSelect];
         
         // Check the probability and add to bigArr if allowed
-        if (eleCount[randKey] < probability[difficul][randKey]) { //19 true
+        // console.log("55555555555   ",randKey );
+        
+        if (eleCount[randKey] < conditionsPerct[randKey]) { //19 true
             bigArr.push(randKey);               //becomes 20
             eleCount[randKey] += 1;
         } else {
@@ -362,13 +340,15 @@ function moveOnDifficulty(newCategorizedMoves,difficul) {
         }
     }
 
-    // console.log(bigArr);
-    console.log(bigArr.length);
-    console.log(eleCount);
+    console.log(copiedkeysArr,'zzzzzzzzzzzzzzzzz     ',conditionsPerct);
+     console.log(bigArr);
+    //console.log(bigArr.length);
+    // console.log(eleCount);
     // console.log(copiedkeysArr);
 
     bigArrRandomIndex = Math.floor(Math.random() * bigArr.length); //Generates 0,1,2,
     bigArrRandomValue = bigArr[bigArrRandomIndex];
+    console.log(bigArrRandomValue);
     
     c = Math.floor(Math.random() * newCategorizedMoves[bigArrRandomValue].length);
     rannMovv = newCategorizedMoves[bigArrRandomValue][c];
@@ -382,5 +362,75 @@ function transformPosition(position) {
         col: position.j
     };
 }
+
+function selectProbability(keysArr, category) {
+
+    let probabilityFor2 = {
+        'medium':[
+            {
+                '-10':30,
+                '0':60
+            },
+            {
+                '10':20,
+                '0':50
+            },
+            {
+                '10':20,
+                '-10':20
+            }
+        ],
+        'hard':[
+            {
+                '-10':10,
+                '0':30
+            },
+            {
+                '10':40,
+                '0':10
+            },
+            {
+                '10':40,
+                '-10':10
+            }
+        ]
+    };
+    let probability = {
+        'medium': {
+            '-10': 20,
+            '0': 30,
+            '10': 30
+        },
+        'hard': {
+            '-10': 10,
+            '0': 30,
+            '10': 60
+        }
+    };
+
+    let selected;
+
+    if (keysArr.length === 3) {
+        // If length is 3, assign the entire probability object
+        selected = probability[category];
+    } else if (keysArr.length === 2) {
+        // Iterate over each object in the array of the corresponding category in probabilityFor2
+        for (let obj of probabilityFor2[category]) {
+            let keys = Object.keys(obj);
+
+            // Check if keysArr matches the keys of the current object
+            if (keysArr.every(key => keys.includes(key))) {
+                selected = obj;
+                break;
+            }
+        }
+    }else if (keysArr.length === 1) {
+        // If length is 1, return an object with that key and a value of 5
+        selected = { [keysArr[0]]: 5 };
+    }
+
+    return selected;
+}
+
 
 

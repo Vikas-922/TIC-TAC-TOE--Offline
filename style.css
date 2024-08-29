@@ -48,8 +48,8 @@ body {
 
 .box {
   background-color: rgba(123, 133, 133, 0.561);
-  width: 100px;
-  height: 100px;
+  width: 108px;
+  height: 108px;
   border-radius: 5px;
   display: grid;
   place-items: center;
@@ -120,10 +120,10 @@ body {
 
 #resetButton {
   padding: 10px 40px;
-  margin-top: 15px;
+  margin-bottom: 15px;
   background-color: #ff4747;
   color: white;
-  border: none;
+  /* border: none; */
   border-radius: 5px;
   cursor: pointer;
   font-size: x-large;
