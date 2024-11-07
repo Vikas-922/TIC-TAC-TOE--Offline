@@ -1,4 +1,11 @@
-# Tic-Tac-Toe Project
+# Tic-Tac-Toe Game with Bot
+
+A classic Tic-Tac-Toe game featuring a bot opponent built using the Minimax Algorithm for medium-hard difficulty. The bot carefully evaluates moves to make optimal choices, creating a challenging experience for players. Designed with a simple, user-friendly interface, this project highlights strategic decision-making in a straightforward game format.
+
+## Features
+- **Medium-Hard Difficulty**: Bot uses the Minimax Algorithm to evaluate and make strategic moves.
+- **Challenging Gameplay**: Enjoy a more competitive experience with calculated bot responses.
+- **User-Friendly Interface**: Clean and intuitive layout for seamless gameplay.
 
 ## Minimax Algorithm Performance Analysis
 
