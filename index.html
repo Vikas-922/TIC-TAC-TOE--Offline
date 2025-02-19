@@ -1,68 +1,115 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TIC TAC TOE</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <div class="container">
-      <div class="difficultyLevel">
-       
-        <label id="r1">
-          <input type="radio" name="difficulty" value="medium" checked> MEDIUM
-        </label>
-        <label id="r2">
-          <input type="radio" name="difficulty" value="hard"> HARD
-        </label>
-        <label id="r3">
-          <input type="radio" name="difficulty" value="impossible"> IMPOSSIBLE
-        </label>
-      </div>
-      <div class="botCont">
-      <button id="bot">BOT</button>
-      <button id="resetButton">Reset</button>
-      <!-- <input type="number" id="input-box" min="1" max="9" placeholder="Bot's IQ" oninput="checkInput(this)"> -->
-      </div>
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/jpeg" href="/logoIcon.jpg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tic Tac Toe</title>
+  <style>
+    /* Basic Reset */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    /* Body Styling */
+    body {
+      background: linear-gradient(135deg, #f39c12, #8e44ad);
+      font-family: 'Arial', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    /* Container Styling */
+    .container {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 40px;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 400px;
+    }
+    
+    .container h1 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+    
+    .container p {
+      margin-bottom: 30px;
+      font-size: 18px;
+      color: #555;
+    }
+    
+    /* Button Styling */
+    .btn {
+      padding: 15px 30px;
+      font-size: 18px;
+      margin: 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.3s;
+      width: calc(100% - 20px);
+    }
+    
+    .btn:hover {
+      transform: scale(1.05);
+      opacity: 0.9;
+    }
+    
+    #onlineBtn {
+      background-color: #27ae60;
+      color: #fff;
+    }
+    
+    #offlineBtn {
+      background-color: #2980b9;
+      color: #fff;
+    }
+    
+    /* Responsive Styles */
+    @media (max-width: 600px) {
+      .container {
+        padding: 20px;
+      }
+      .container h1 {
+        font-size: 24px;
+      }
+      .container p {
+        font-size: 16px;
+      }
+      .btn {
+        font-size: 16px;
+        padding: 12px 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Tic Tac Toe</h1>
+    <p>Select your game mode:</p>
+    <button class="btn" id="onlineBtn">Online Mode</button>
+    <button class="btn" id="offlineBtn">Offline Mode</button>
+  </div>
 
-      <div class="gameCont">
-        <div class="box" id="1"></div>
-        <div class="box" id="2"></div>
-        <div class="box" id="3"></div>
-        <div class="box" id="4"></div>
-        <div class="box" id="5"></div>
-        <div class="box" id="6"></div>
-        <div class="box" id="7"></div>
-        <div class="box" id="8"></div>
-        <div class="box" id="9"></div>
-      </div>
-      <div class="content">
-        <div class="chance">
-          <img src="" />
-          <p>Turn</p>
-        </div>
-      </div>
-      
-    </div>
+  <script>
+    // Redirect to the appropriate page based on the button clicked
+    document.getElementById("onlineBtn").addEventListener("click", function() {
+      // Replace with your online mode URL/path
+      window.location.href = "https://online-games-smoky.vercel.app/";
+    });
 
-    <!-- //// -->
-    <div id="winningAnimation" class="animation-container">
-      <img
-        src="images/win2.png"
-        alt="Winning Animation"
-        class="animation-image"
-      />
-      <div class="winTitle">
-        <img src="images/circle.png" id="winim" />
-        <img src="images/wins.png" id="wintitle" />
-      </div>
-    </div>
-    <div class="tieAnimation">
-      <h2>TIEE..</h2>
-    </div>
-
-    <script src="script2.js"></script>
-    <script src="script.js"></script>
-  </body>
+    document.getElementById("offlineBtn").addEventListener("click", function() {
+      // Replace with your offline mode URL/path
+      window.location.href = "offline.html";
+    });
+  </script>
+</body>
 </html>
