@@ -18,9 +18,10 @@
       background: linear-gradient(135deg, #f39c12, #8e44ad);
       font-family: 'Arial', sans-serif;
       display: flex;
+      flex-direction: column;
+      min-height: 100vh;
       align-items: center;
       justify-content: center;
-      min-height: 100vh;
       padding: 20px;
     }
     
@@ -73,6 +74,20 @@
       color: #fff;
     }
     
+    /* Footer Styling */
+    footer {
+    position: fixed;
+    bottom: 0;
+    background-color: #343434;
+    width: 100%;
+    font-weight: 500;
+      text-align: center;
+      padding: 10px 0;
+      font-size: 14px;
+      color: #fff;
+      margin-top: 20px;
+    }
+    
     /* Responsive Styles */
     @media (max-width: 600px) {
       .container {
@@ -98,6 +113,10 @@
     <button class="btn" id="onlineBtn">Online Mode</button>
     <button class="btn" id="offlineBtn">Offline Mode</button>
   </div>
+
+  <footer>
+    @ Developed by Vikas
+  </footer>
 
   <script>
     // Redirect to the appropriate page based on the button clicked
