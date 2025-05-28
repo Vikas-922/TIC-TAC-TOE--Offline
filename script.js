@@ -15,7 +15,6 @@ document.querySelector('.difficultyLevel').addEventListener('change', function(e
   if (event.target.type === 'radio') {
     console.log(event.target.value + ' selected');
     difficultyLevel = event.target.value;
-    // Add your logic based on the selected value here
   }
   // console.log('>>>>>>>>  ',event.target,' selected');
 });

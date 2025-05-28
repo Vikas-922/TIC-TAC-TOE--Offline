@@ -39,10 +39,7 @@ function checkWinnig(temp2DBoard,player) {
       ];
 
     let tempBoard=convertTo1DArrayV2(temp2DBoard);
-    
-    // console.log("tempBoard  ",tempBoard,temp2DBoard);
-    // console.log("playrConvsn  ",playrConvsn);
-    let playerWins=false;
+        let playerWins=false;
 
     // Check each winning combination
       for (let combination of winConditions) {
@@ -57,12 +54,6 @@ function checkWinnig(temp2DBoard,player) {
       }
 
       return false;
-      
-    //   tie = tempBoard.every(cell => cell !== '_');
-    //   if(tie) {
-    //     // console.log( "------TTIIEEEE -------");
-    //      return "tie";
-    //   }
         
   }
 
@@ -79,49 +70,6 @@ function evaluate(board) {
     return 0;
 }
   
-/*
-// Function to evaluate the board
-function evaluate(board) {
-    // Check rows for a win
-    for (let row = 0; row < 3; row++) {
-        if (board[row][0] === board[row][1] && board[row][1] === board[row][2]) {
-            if (board[row][0] === 'X')
-                return +10;
-            else if (board[row][0] === 'O')
-                return -10;
-        }
-    }
-
-    // Check columns for a win
-    for (let col = 0; col < 3; col++) {
-        if (board[0][col] === board[1][col] && board[1][col] === board[2][col]) {
-            if (board[0][col] === 'X')
-                return +10;
-            else if (board[0][col] === 'O')
-                return -10;
-        }
-    }
-
-    // Check diagonals for a win
-    if (board[0][0] === board[1][1] && board[1][1] === board[2][2]) {
-        if (board[0][0] === 'X')
-            return +10;
-        else if (board[0][0] === 'O')
-            return -10;
-    }
-
-    if (board[0][2] === board[1][1] && board[1][1] === board[2][0]) {
-        if (board[0][2] === 'X')
-            return +10;
-        else if (board[0][2] === 'O')
-            return -10;
-    }
-
-    // No one has won
-    return 0;
-}
-*/
-
 
 // Minimax function
 function minimax(board, depth, alpha, beta, isMax, maxDepth) {
@@ -140,19 +88,6 @@ function minimax(board, depth, alpha, beta, isMax, maxDepth) {
     // If there are no more moves and no winner
     if (!isMovesLeft(board))
         return 0;
-    /*
-    if(depth<=1){
-        Maxdepth=5;
-    }else if(depth<=2){
-        Maxdepth=4;
-    }else if(depth<=3) {
-        Maxdepth=1;
-    }   */
-
-    // if (depth >=maxDepth) {
-    //         console.log(`+++++   depth >=${maxDepth}   +++++`);
-    //     return -10 + depth;
-    // }
 
     // If this is the maximizer's move BOT
     if (isMax) {
@@ -264,7 +199,6 @@ function findBestMove(board,botSign,maxDepth,difficulty) {
                 board[i][j] = 'x';
                 // Compute evaluation function for this move
                 let moveVal = minimax(board, 0, -Infinity, Infinity, false,maxDepth);
-                // let moveVal = minimax(board, 1, false);
                 // Undo the move
                 board[i][j] = '_';
 
@@ -275,9 +209,6 @@ function findBestMove(board,botSign,maxDepth,difficulty) {
                 // Store the position in the corresponding moveVal category
                 categorizedMoves[moveVal].push({ i: i, j: j });
                 
-                
-                // console.log('moveVal<<<  '+moveVal+'  >>>'+i+' '+j);
-
                 // If the value of the current move is more than the best value, update best
                 if (moveVal > bestVal) {
                     bestMove.row = i;
@@ -289,35 +220,24 @@ function findBestMove(board,botSign,maxDepth,difficulty) {
     }
 
     console.log('score for moves ',categorizedMoves);
-    // console.log(categorizedMoves[-10][1]);
-    // console.log("+++++/////+++++++++",difficulty);
     if(difficulty!=='impossible'){
-    bestMove = moveOnDifficulty(categorizedMoves,difficulty);
+        bestMove = moveOnDifficulty(categorizedMoves,difficulty);
     }
-    // console.log("+++++/////+++++++++",bestMove);
     return bestMove;
 }
 
 function moveOnDifficulty(newCategorizedMoves,difficul) {
-    // console.log("aaaaaaaaaaaaaaaa",difficul);
-    
-    // Math.floor(Math.random() * 3) ^ Math.round(Math.random() * 2); //Generates 0,1,2,3
-    // Math.floor(Math.random() * 3); //Generates 0,1,2,
-
     let keysArr = Object.keys(newCategorizedMoves);
     let copiedkeysArr = JSON.parse(JSON.stringify(keysArr));
     let eleCount = {};
     let bigArr = [];
-    let conditionsPerct = selectProbability(keysArr, difficul);
-    
+    let conditionsPerct = selectProbability(keysArr, difficul);   
     
 
     // Initialize eleCount with zero values
     keysArr.forEach(key => {
         eleCount[key] = 0;
-    });
-
-    
+    });    
 
     for (let i = 0; i < 100; i++) {
         // If keysArr is empty, break the loop
@@ -326,10 +246,7 @@ function moveOnDifficulty(newCategorizedMoves,difficul) {
         // Randomly select a key
         let moreRandIndexSelect = Math.floor(Math.random() * keysArr.length);   //Generates 0,1,2,
         let randKey = keysArr[moreRandIndexSelect];
-        
-        // Check the probability and add to bigArr if allowed
-        // console.log("55555555555   ",randKey );
-        
+                
         if (eleCount[randKey] < conditionsPerct[randKey]) { //19 true
             bigArr.push(randKey);               //becomes 20
             eleCount[randKey] += 1;
@@ -341,10 +258,6 @@ function moveOnDifficulty(newCategorizedMoves,difficul) {
     }
 
     console.log('Conditions percentage chances ',conditionsPerct);
-    //  console.log(bigArr);
-    //console.log(bigArr.length);
-    // console.log(eleCount);
-    // console.log(copiedkeysArr);
 
     bigArrRandomIndex = Math.floor(Math.random() * bigArr.length); //Generates 0,1,2,
     bigArrRandomValue = bigArr[bigArrRandomIndex];
@@ -353,7 +266,6 @@ function moveOnDifficulty(newCategorizedMoves,difficul) {
     c = Math.floor(Math.random() * newCategorizedMoves[bigArrRandomValue].length);
     rannMovv = newCategorizedMoves[bigArrRandomValue][c];
     return transformPosition(rannMovv);
-    // if(eleCount[]===undefined || eleCount[]<=10);
 }
 
 function transformPosition(position) {
